@@ -47,4 +47,4 @@
   - [ ] Abschließende Tests
   - [ ] Dokumentation
   - [ ] Erstellen Präsentation
-  - [ ] Dokumentationerstellt
+  - [ ] Dokumentation erstellt
