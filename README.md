@@ -1,7 +1,7 @@
 # Robotikpraktikum: Follow Me
 
 ## Milestones
-- [ ] Vorbesprechung bis28.11.2018
+- [ ] Vorbesprechung bis 28.11.2018
   - [x] Erlaeutern der Rahmebdingungen
   - [x] Einigung Programmiersprache: Java in Git-Repo auf Github
   - [x] Einigung Optische Schnittstelle: Polaris
