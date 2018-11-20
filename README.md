@@ -1,5 +1,11 @@
 # Robotikpraktikum: Follow Me
 
+## Aufbau
+
+- [/doku](doku) beinhaltet Dokumentation
+- [/doku/OpenProJ](doku/OpenProJ) beinhaltet die OpenProJ-Datei zur Projektplanung
+- [/src](src) beinhaltet den Source-Code selbst
+
 ## Milestones
 - [ ] Vorbesprechung bis 28.11.2018
   - [x] Erlaeutern der Rahmebdingungen
