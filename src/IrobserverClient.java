@@ -43,4 +43,6 @@ public interface IrobserverClient
 		boolean lefty=true,
 		boolean toggleArm=true
 		);
+	public Matrix getPositionHomRowWise();
+	public String[] getStatus();
 }
