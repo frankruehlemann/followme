@@ -16,8 +16,8 @@ public interface ItrackserverClient
 	public boolean chooseOutputFormat(
 		String format
 		);
-	// TrackServer-Doku: CM NEXTVALUE
-	public int[] getNextValues();
+	// TrackServer-Doku: CM_NEXTVALUE
+	public float[] getNextValues();
 	// TrackServer-Doku: CM PING
 	public boolean ping();
 	// TrackServer-Doku: CM SETLOGLEVEL

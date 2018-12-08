@@ -35,7 +35,7 @@ public interface IrobserverClient
 		int brake
 		);
 	// RobServer-Doku: GetJointsMaxSpeed
-	public int[] getJointsMaxChange();
+	public float[] getJointsMaxChange();
 	// RobServer-Doku: SetJointsMaxSpeed
 	public boolean setJointsMaxChange(
 		int alpha1,
