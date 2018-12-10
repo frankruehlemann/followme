@@ -67,11 +67,7 @@ public class robserverClientDirty {
 		}
 	}
 
-	public static String sendServer(
-			DataOutputStream streamToServer,
-			BufferedReader streamFromServer,
-			String command
-		) throws IOException {
+	public static String sendServer(DataOutputStream streamToServer,BufferedReader streamFromServer,String command) throws IOException {
 		streamToServer.write(command.getBytes("US-ASCII"));
 		return streamFromServer.readLine();
 	}
