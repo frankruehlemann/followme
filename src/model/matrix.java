@@ -1,3 +1,4 @@
+package model;
 import java.lang.IllegalArgumentException;
 
 public class matrix throws IllegalArgumentException{
