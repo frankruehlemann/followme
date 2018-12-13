@@ -1,21 +1,15 @@
 package main;
-import view.robotGUI;
 import control.robotGUIControl;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Robot;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import view.robotGUI;
 
 public class main extends Application{
 
 	public static void main(String[] args) {
-		
 		
 		launch(args);
 	}
@@ -28,7 +22,7 @@ public class main extends Application{
 		
 		Stage stage = primaryStage;
 		
-		stage.setScene(new Scene(root,1200,400));
+		stage.setScene(new Scene(root,1600,400));
 		stage.show();
 		
 	}
