@@ -5,7 +5,7 @@ public interface IrobserverClient
 	// inklusive aller notwendiger Schritte
 	public boolean connect(
 		String host,
-		int port
+		String port
 		);
 	// RobServer-Doku: GetRobot
 	public String getRobot();
@@ -21,14 +21,14 @@ public interface IrobserverClient
 		int wait
 		);
 	// RobServer-Doku: CM_PING
-	public double ping();
+	public boolean ping();
 	// RobServer-Doku: SetVerbosity
 	public boolean setVerbosity(
 		int verbosity
 		);
 	// RobServer-Doku: SetAdeptSpeed
 	public boolean setAdeptSpeed(
-		int speed
+		double speed
 		);
 	// RobServer-Doku: SetAdeptAccel
 	public boolean setAdeptAccel(
@@ -46,22 +46,9 @@ public interface IrobserverClient
 		double alpha5,
 		double alpha6
 		);
-	// RobServer-Doku: MoveRTHomRowWise
-	public boolean moveRTHomRowWise(
-		matrix matrix
-		);
-	// RobServer-Doku: MoveRTHomRowWiseStatus
-	public boolean moveRTHomRowWiseStatus (
-		matrix matrix,
-		boolean flip,
-		boolean toggleHand,
-		boolean up,
-		boolean toggleElbow,
-		boolean lefty,
-		boolean toggleArm
-		);
+
 	// RobServer-Doku: GetPositionHomRowWise
-	public matrix getPositionHomRowWise();
+	public Matrix getRobotPosition();
 	// RobServer-Doku: GetStatus
 	public String[] getStatus();
 }
