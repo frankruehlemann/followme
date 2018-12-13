@@ -1,23 +1,63 @@
 package model;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import view.robotGUI;
 
 
 
 public class Kalibrierung {
-	int n;
+	private int n=5;
+	
+	private Robot robot;
+	private TrackingSystem track;
+	private robotGUI gui;
+	
 	ArrayList <Matrix> Rob_matrices = new ArrayList<Matrix>();
 	ArrayList <Matrix> TS_matrices = new ArrayList<Matrix>();
-	public Kalibrierung(TrackingSystem track, Robot rob) {
-		for(int i = 0; i<6; i++) {
-			Rob_matrices.set(i, new Matrix(randMatrix());
-			//TODO: Matrix Befehl an Roboter geben
-			//TODO: wait
-			TS_matrices.set(i, new Matrix(track.getNextValue()));
+	
+	public Kalibrierung(TrackingSystem track, Robot rob,robotGUI gui) {
+		
+		this.gui=gui;
+		this.robot = rob;
+		this.track = track;
+
+	}
+	
+	public void calibrate() {
+		
+		System.out.println("Calibration started...");
+		this.robot.setAdeptSpeed(5);
+		
+		for(int i = 0; i<this.n; i++) {
+			Rob_matrices.add(new Matrix(randMatrix()));
+			
+			this.robot.moveHomRowWise(this.Rob_matrices.get(i));
+			
+			
+			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			this.gui.getMatrixView().setMatrix(this.robot.getRobotPosition());
+			
+			try {
+				TS_matrices.set(i, new Matrix(track.getNextValue(),4));
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 		//TODO:solve
-		
 	}
+	
+	public void setMeasureCount(int c) {
+		this.n=Math.abs(c);
+	}	
+	
 	public double[][] randMatrix() {
 		double[][] m = new double[3][4];
 		for(int i=0; i<3;i++) {
