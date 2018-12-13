@@ -1,3 +1,5 @@
+package model;
+
 public interface ItrackserverClient
 {
 	// Verbindung zum Server
