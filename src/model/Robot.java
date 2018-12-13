@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.LinkedList;
-
+/**
+ * 
+ * @author OpfaH
+ *
+ */
 public class Robot implements IrobserverClient{
 	
 	private String serverAddress = "127.0.0.1";
@@ -20,6 +24,8 @@ public class Robot implements IrobserverClient{
 	private String robName ="";
 	private String robType = "";
 	private String robServerVersion ="";
+	
+	private float speed;
 	
 	private LinkedList<String> readQueue = new LinkedList<String>();
 	
@@ -64,6 +70,8 @@ public class Robot implements IrobserverClient{
 		//System.out.println(this.read());
 		return true;
 	}
+	
+	
 	//************************************************************************************
 	/**
 	 * 
@@ -104,7 +112,7 @@ public class Robot implements IrobserverClient{
 			System.err.println(e.getStackTrace());
 			answer="0xee";
 		}
-		return answer;
+		return answer.trim();
 	}
 	//************************************************************************************
 	/**
@@ -202,23 +210,23 @@ public class Robot implements IrobserverClient{
 	}
 	
 	public String getRobType() {
-		if(this.readWrite("IsKuka")=="true") {
+		if(this.readWrite("IsKuka").equals("true")) {
 			this.robType = "Kuka";
 			return "Kuka";
 		}
-		if(this.readWrite("IsAdept")=="true") {
+		if(this.readWrite("IsAdept").equals("true")) {
 			this.robType = "Adept";
 			return "Adept";
 		}
-		if(this.readWrite("IsKawa")=="true") {
+		if(this.readWrite("IsKawa").equals("true")) {
 			this.robType = "Kawa";
 			return "Kawa";
 		}
-		if(this.readWrite("IsKR3")=="true") {
+		if(this.readWrite("IsKR3").equals("true")) {
 			this.robType = "KR3";
 			return "KR3";
 		}
-		if(this.readWrite("IsKR16")=="true") {
+		if(this.readWrite("IsKR16").equals("true")) {
 			this.robType = "KR16";
 			return "KR16";
 		}
@@ -252,9 +260,9 @@ public class Robot implements IrobserverClient{
 	}
 
 	@Override
-	public boolean setAdeptSpeed(int speed) {
+	public boolean setAdeptSpeed(double speed) {
 		if((speed>=0) && (speed <=120)) {
-			if(this.readWrite("SetAdeptSpeed "+Integer.toString(speed))=="true") {
+			if(this.readWrite("SetAdeptSpeed "+Double.toString(speed))=="true") {
 				return true;
 			}
 		}
@@ -303,15 +311,15 @@ public class Robot implements IrobserverClient{
 		return false;
 	}
 	
-	public boolean moveHomRowWise(int m11,int m12,int m13,int m14,
-								int m21,int m22,int m23,int m24,
-								int m31,int m32,int m33,int m34) {
+	public boolean moveHomRowWise(double m11,double m12,double m13,double m14,
+								double m21,double m22,double m23,double m24,
+								double m31,double m32,double m33,double m34) {
 		
 		
 		String msg = "MoveMinChangeRowWiseStatus "+
-				Integer.toString(m11)+" "+Integer.toString(m12)+" "+Integer.toString(m13)+" "+Integer.toString(m14)+" "+
-				Integer.toString(m21)+" "+Integer.toString(m22)+" "+Integer.toString(m23)+" "+Integer.toString(m24)+" "+
-				Integer.toString(m31)+" "+Integer.toString(m32)+" "+Integer.toString(m33)+" "+Integer.toString(m34)+" "+
+				Double.toString(m11)+" "+Double.toString(m12)+" "+Double.toString(m13)+" "+Double.toString(m14)+" "+
+				Double.toString(m21)+" "+Double.toString(m22)+" "+Double.toString(m23)+" "+Double.toString(m24)+" "+
+				Double.toString(m31)+" "+Double.toString(m32)+" "+Double.toString(m33)+" "+Double.toString(m34)+" "+
 				"flip toggleElbow toggleArm";
 				
 		
@@ -322,6 +330,21 @@ public class Robot implements IrobserverClient{
 		return false;
 	}
 	
+	public boolean moveHomRowWise(Matrix matrix) {
+		return this.moveHomRowWise(matrix.getValueAt(0, 0), 
+							matrix.getValueAt(0, 1), 
+							matrix.getValueAt(0, 2), 
+							matrix.getValueAt(0, 3), 
+							matrix.getValueAt(1, 0), 
+							matrix.getValueAt(1, 1), 
+							matrix.getValueAt(1, 2), 
+							matrix.getValueAt(1, 3), 
+							matrix.getValueAt(2, 0), 
+							matrix.getValueAt(2, 1), 
+							matrix.getValueAt(2, 2), 
+							matrix.getValueAt(2, 3));
+	}
+	
 	public boolean moveRTHomRowWise(int m11,int m12,int m13,int m14,
 									int m21,int m22,int m23,int m24,
 									int m31,int m32,int m33,int m34) {
@@ -330,15 +353,16 @@ public class Robot implements IrobserverClient{
 				Integer.toString(m21)+" "+Integer.toString(m22)+" "+Integer.toString(m23)+" "+Integer.toString(m24)+" "+
 				Integer.toString(m31)+" "+Integer.toString(m32)+" "+Integer.toString(m33)+" "+Integer.toString(m34);
 		
-		
-		if(this.readWrite(msg)=="true") {
-			return true;
+		if(this.isConnected) {
+			if(this.readWrite(msg)=="true") {
+				return true;
+			}
 		}
 		
 		return false;
 	}
 	
-	public double[] getRobotPosition() {
+	public Matrix getRobotPosition() {
 		if(!this.isConnected) {
 			return null;
 		}
@@ -351,6 +375,15 @@ public class Robot implements IrobserverClient{
 		for(int i =0;i<parts.length;i++) {
 			values[i]=Double.parseDouble(parts[i]);
 		}
-		return values;
+		
+		
+		return new Matrix(values,4);
+	}
+
+	@Override
+	public String[] getStatus() {
+		String msg = this.readWrite("GetStatus");
+		
+		return msg.split(" ");
 	}
 }
