@@ -8,7 +8,7 @@ import view.robotGUI;
 
 
 public class Kalibrierung {
-	private int n=5;
+	private int cnt=2;
 	
 	private Robot robot;
 	private TrackingSystem track;
@@ -30,59 +30,77 @@ public class Kalibrierung {
 		System.out.println("Calibration started...");
 		this.robot.setAdeptSpeed(5);
 		
-		for(int i = 0; i<this.n; i++) {
-			Rob_matrices.add(new Matrix(randMatrix()));
+		for(int i = 0; i<this.cnt; i++) {
 			
-			this.robot.moveHomRowWise(this.Rob_matrices.get(i));
+			boolean success=false;
+			while(!success) {
+				Matrix randMat = randMatrix();
+				success=this.robot.moveHomRowWise(randMat);
+			}	
 			
 			
-			
+			Rob_matrices.add(randMatrix());
+			System.out.println("added...");
+			/*
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
+			*/
 			this.gui.getMatrixView().setMatrix(this.robot.getRobotPosition());
-			
+			this.gui.getMatrixView().updateView();
+			/*
 			try {
 				TS_matrices.set(i, new Matrix(track.getNextValue(),4));
 			}
 			catch(IOException e) {
 				e.printStackTrace();
 			}
+			*/
+			
 		}
 		//TODO:solve
 	}
 	
 	public void setMeasureCount(int c) {
-		this.n=Math.abs(c);
+		this.cnt=Math.abs(c);
 	}	
 	
-	public double[][] randMatrix() {
-		double[][] m = new double[3][4];
-		for(int i=0; i<3;i++) {
-			for(int j=0;j<4; j++) {
-				//Translationsteil
-				if(j==3) {
-					if(i==0) {
-						m[i][j] = ThreadLocalRandom.current().nextInt(-500, 500 + 1);
-						System.out.println("m "+i+" "+j+": "+m[i][j]);
-					}
-					if(i==1) {
-						m[i][j] = ThreadLocalRandom.current().nextInt(-100, 100 + 1);
-						System.out.println("m "+i+" "+j+": "+m[i][j]);
-					}
-					if(i==2) {
-						m[i][j] = ThreadLocalRandom.current().nextInt(-500, 500 + 1);
-						System.out.println("m "+i+" "+j+": "+m[i][j]);
-					}
-				}else {
-					m[i][j] = ThreadLocalRandom.current().nextInt(1, 300 + 1);
-					System.out.println("m "+i+" "+j+": "+m[i][j]);
-				}
-			}
-		}
-		return m;
+	public Matrix randMatrix() {
+		
+		double alpha = ThreadLocalRandom.current().nextInt(30, 180 + 1);
+		double beta = ThreadLocalRandom.current().nextInt(30, 180 + 1);
+		double gamma = ThreadLocalRandom.current().nextInt(30, 180 + 1);
+		
+		double xpos = ThreadLocalRandom.current().nextInt(-500, 500 + 1);
+		double ypos = ThreadLocalRandom.current().nextInt(200, 500 + 1);
+		double zpos = ThreadLocalRandom.current().nextInt(100, 500 + 1);
+		
+		return this.createHomMatrix(xpos, ypos, zpos, alpha, beta, gamma);
 	}
 	
+	public Matrix createHomMatrix(double posx,double posy,double posz,double xangle,double yangle,double zangle) {
+		
+		Matrix rx = new Matrix(new double[] {1,0,0,0,
+											0,Math.cos(xangle),-Math.sin(xangle),0,
+											0,Math.sin(xangle),Math.cos(xangle),0},4);
+		
+		Matrix ry = new Matrix(new double[] {Math.cos(yangle),0,Math.sin(yangle),0,
+											0,1,0,0,
+											-Math.sin(yangle),0,Math.cos(yangle),0},4);
+		
+		Matrix rz = new Matrix(new double[] {Math.cos(zangle),-Math.sin(zangle),0,0,
+											Math.sin(zangle),Math.cos(zangle),0,0,
+											0,0,1,0},4);
+		
+		Matrix rot = rz.multiply(ry).multiply(rx);
+		
+		Matrix translation = new Matrix(new double[]{0,0,0,posx,
+													0,0,0,posy,
+													0,0,0,posz,
+													0,0,0,1},4);
+		
+		return translation.add(rot);
+	}
 }
