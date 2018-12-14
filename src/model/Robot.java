@@ -241,7 +241,7 @@ public class Robot implements IrobserverClient{
 	@Override
 	public boolean ping() {
 		String answer =this.readWrite("CM_PING");
-		if(answer=="PONG") {
+		if(answer.equals("PONG")) {
 			return true;
 		}
 		return false;
@@ -253,7 +253,7 @@ public class Robot implements IrobserverClient{
 		if(this.isConnected) {
 			answer=this.readWrite("SetVerbosity "+Integer.toString(verbosity));
 		}
-		if(answer=="true") {
+		if(answer.equals("true")) {
 			return true;
 		}
 		return false;
@@ -262,7 +262,7 @@ public class Robot implements IrobserverClient{
 	@Override
 	public boolean setAdeptSpeed(double speed) {
 		if((speed>=0) && (speed <=120)) {
-			if(this.readWrite("SetAdeptSpeed "+Double.toString(speed))=="true") {
+			if(this.readWrite("SetAdeptSpeed "+Double.toString(speed)).equals("true")) {
 				return true;
 			}
 		}
@@ -272,7 +272,7 @@ public class Robot implements IrobserverClient{
 	@Override
 	public boolean setAdeptAccel(int accelerate, int brake) {
 		if((accelerate>=0) && (accelerate <=120) && (brake>=0) && (brake <=120)) {
-			if(this.readWrite("SetAdeptAccel "+Integer.toString(accelerate)+" "+Integer.toString(brake))=="true") {
+			if(this.readWrite("SetAdeptAccel "+Integer.toString(accelerate)+" "+Integer.toString(brake)).equals("true")) {
 				return true;
 			}
 		}
@@ -305,7 +305,7 @@ public class Robot implements IrobserverClient{
 						Double.toString(alpha5)+" "+
 						Double.toString(alpha6);
 		
-		if(this.readWrite(command)=="true") {
+		if(this.readWrite(command).equals("true")) {
 			return true;
 		}
 		return false;
@@ -323,7 +323,7 @@ public class Robot implements IrobserverClient{
 				"flip toggleElbow toggleArm";
 				
 		
-		if(this.readWrite(msg)=="true") {
+		if(this.readWrite(msg).equals("true")) {
 			return true;
 		}
 		
@@ -354,7 +354,7 @@ public class Robot implements IrobserverClient{
 				Integer.toString(m31)+" "+Integer.toString(m32)+" "+Integer.toString(m33)+" "+Integer.toString(m34);
 		
 		if(this.isConnected) {
-			if(this.readWrite(msg)=="true") {
+			if(this.readWrite(msg).equals("true")) {
 				return true;
 			}
 		}
