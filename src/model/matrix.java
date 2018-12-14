@@ -1,4 +1,5 @@
 package model;
+
 import java.io.IOException;
 
 public class Matrix{
@@ -24,8 +25,15 @@ public class Matrix{
 		
 		int rows = values.length/width;
 		int cols = width;
-
-		this.values = new double[rows][cols];
+		
+		if(rows==3 && cols==4) {
+			this.values = new double[rows+1][cols];
+		}
+		else {
+			this.values = new double[rows][cols];
+		}
+		
+		
 		
 		int row =0;
 		for(int i=0;i<values.length;i++) {
@@ -39,6 +47,10 @@ public class Matrix{
 			this.values[row][col]=values[i];
 		}
 		
+		if(rows==3 && cols==4) {
+			this.values[3]=new double[] {0,0,0,1};
+		}
+		
 		if(!this.checkArray(this.values)) {
 			throw new IllegalArgumentException("Nix is");
 		}
@@ -50,7 +62,7 @@ public class Matrix{
 	 * @return
 	 */
 	public boolean checkArray(double[][] values) {
-		if (values.length > 3) {
+		if (values.length > 4) {
 			return false;
 		}
 		for (int i=0; i<values.length; i++) {
@@ -105,5 +117,58 @@ public class Matrix{
 		
 	}
 	
+	public void zeros() {
+		for(int i =0;i<this.getRowCount();i++) {
+			for(int j =0;j<this.getColCount();j++) {
+				this.values[i][j]=0;
+			}
+		}
+	}
+	public Matrix add(Matrix m) {
+		
+		if(this.getRowCount()!=m.getRowCount() && this.getColCount()!=m.getColCount()) {
+			System.out.println("Matrix size not equal!!!");
+			return null;
+		}
+		
+		Matrix res= new Matrix(new double[this.getRowCount()][this.getColCount()]);
+		
+		for(int row=0;row<this.getRowCount();row++) {
+			for(int col=0;col<m.getColCount();col++) {
+				double val = this.getValueAt(row, col)+m.getValueAt(row, col);
+				res.setValueAt(val, row, col);
+			}
+		}
+		return res;
+	}
+	public Matrix multiply(Matrix m) {
+		
+		Matrix res=null;
+		
+		if(this.getColCount() != m.getRowCount()) {
+			System.out.println("rowcount != colcount");
+		}
+		
+		else {
+			
+			double[][] val = new double[this.getRowCount()][m.getColCount()]; 
+			res=new Matrix(val);
+			res.zeros();
+			
+			for(int row=0;row<this.getRowCount();row++) {
+				for(int col=0;col<m.getColCount();col++) {
+					
+					for(int i=0;i<this.getColCount();i++) {
+						double temp = res.getValueAt(row, col)+this.getValueAt(row, i)*m.getValueAt(i, col);
+						res.setValueAt(temp, row, col);
+					}
+
+				}
+			}
+			
+		}
+		
+		return res;
+	}
 	
 }
