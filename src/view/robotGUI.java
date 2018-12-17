@@ -1,17 +1,12 @@
 package view;
-import java.io.PrintStream;
-
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import model.CustomOutputStream;
-import model.Kalibrierung;
 import model.Matrix;
 import model.Robot;
-import model.TrackingSystem;
 
 /**
  * 
@@ -31,7 +26,6 @@ public class robotGUI extends GridPane{
 	private Button robConnect = new Button("Connect");
 	private Button robQuit = new Button("Quit");
 	private Button robSendMatrix = new Button("Send Matrix");
-	private Button robCalibrate = new Button("Calibrate");
 	
 	private TextField speed=new TextField("5");
 	
@@ -43,8 +37,6 @@ public class robotGUI extends GridPane{
 	private TextField ServerVersion= new TextField();
 	
 	private Robot robot;
-	
-	private Kalibrierung calib;
 	
 	private MatrixView matrixView;
 	
@@ -62,12 +54,11 @@ public class robotGUI extends GridPane{
 		this.RobotType.setEditable(false);
 		this.ServerVersion.setEditable(false);
 		
-		this.calib = new Kalibrierung(new TrackingSystem(),this.robot,this);
-		this.calib.setMeasureCount(10);
-		
 		this.setHgap(10);
 		this.setVgap(10);
 		this.setPadding(new Insets(15));
+		
+		this.setStyle("-fx-background-color: #aaaaaa;");
 		
 		//*************************************************************************************************
 		
@@ -88,23 +79,17 @@ public class robotGUI extends GridPane{
 		this.add(this.robConnect, 4, 2);
 		this.add(this.robQuit, 5, 2);
 		
-		this.add(this.robCalibrate, 4, 3);
 		//*************************************************************************************************
 		
 		this.add(this.robSendMatrix, 0, 5);
 		this.add(new Label("Speed"), 1, 5);
-		this.add(this.speed, 2, 5);
+		this.add(this.speed, 4, 5);
 		Matrix matrix = new Matrix(new double[] {1,0,0,200,0,1,0,300,0,0,1,500},4);
 		this.matrixView = new MatrixView(matrix);
-		this.add(this.matrixView, 0, 6,5,3);
+		this.add(this.matrixView, 0, 6,10,1);
 		
 		//*************************************************************************************************
-		log.setEditable(false);
-		this.add(this.log, 6, 0,1,10);
 		
-		PrintStream ps = new PrintStream(new CustomOutputStream(this.log));
-		System.setOut(ps);
-		System.setErr(ps);
 	}
 	/**
 	 * 
@@ -182,11 +167,5 @@ public class robotGUI extends GridPane{
 	}
 	public TextField getSpeedField() {
 		return this.speed;
-	}
-	public Button getRobCalibrate() {
-		return robCalibrate;
-	}
-	public Kalibrierung getCalib() {
-		return this.calib;
 	}
 }
