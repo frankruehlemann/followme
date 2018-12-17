@@ -28,6 +28,7 @@ public class MatrixView extends GridPane {
 	
 	public void setMatrix(Matrix m) {
 		this.matrix=m;
+		this.updateView();
 	}
 	
 	public void updateView() {
