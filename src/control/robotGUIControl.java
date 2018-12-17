@@ -13,7 +13,6 @@ public class robotGUIControl {
 		this.robgui.getRobConnect().setOnAction(this::handle);
 		this.robgui.getRobQuit().setOnAction(this::handle);
 		this.robgui.getRobSendMatrix().setOnAction(this::handle);
-		this.robgui.getRobCalibrate().setOnAction(this::handle);
 		
 	}
 	
@@ -27,9 +26,6 @@ public class robotGUIControl {
 			}
 		}
 		
-		if(event.getSource().equals(this.robgui.getRobCalibrate())) {
-			this.robgui.getCalib().calibrate();
-		}
 		
 		if(event.getSource().equals(this.robgui.getRobSendMatrix())) {
 			this.robgui.getMatrixView().updateMatrix();
