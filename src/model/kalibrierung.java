@@ -3,29 +3,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import view.TrackSysGUI;
 import view.robotGUI;
-
-
 
 public class Kalibrierung {
 	private int cnt=2;
 	
 	private Robot robot;
 	private TrackingSystem track;
-	private robotGUI gui;
+	private robotGUI robgui;
+	private TrackSysGUI tsgui;
 	
 	ArrayList <Matrix> Rob_matrices = new ArrayList<Matrix>();
 	ArrayList <Matrix> TS_matrices = new ArrayList<Matrix>();
 	
-	public Kalibrierung(TrackingSystem track, Robot rob,robotGUI gui) {
+	public Kalibrierung(TrackSysGUI tsgui, robotGUI robgui) {
 		
-		this.gui=gui;
-		this.robot = rob;
-		this.track = track;
+		this.robgui=robgui;
+		this.tsgui=tsgui;
+		this.robot = robgui.getRobot();
+		this.track = tsgui.getTrackSys();
 
 	}
 	
 	public void calibrate() {
+		
+		//TODO verify if its possible to calibrate
 		
 		System.out.println("Calibration started...");
 		this.robot.setAdeptSpeed(5);
@@ -48,16 +51,18 @@ public class Kalibrierung {
 				e1.printStackTrace();
 			}
 			*/
-			this.gui.getMatrixView().setMatrix(this.robot.getRobotPosition());
-			this.gui.getMatrixView().updateView();
-			/*
+			this.robgui.getMatrixView().setMatrix(this.robot.getRobotPosition());
+			
 			try {
-				TS_matrices.set(i, new Matrix(track.getNextValue(),4));
+				Matrix matrix = new Matrix(track.getNextValue(),4);
+				this.tsgui.getMatrixView().setMatrix(matrix);
+				
+				TS_matrices.add(i, matrix);
 			}
 			catch(IOException e) {
 				e.printStackTrace();
 			}
-			*/
+			
 			
 		}
 		//TODO:solve
@@ -103,4 +108,13 @@ public class Kalibrierung {
 		
 		return translation.add(rot);
 	}
+
+	public robotGUI getRobgui() {
+		return robgui;
+	}
+
+	public TrackSysGUI getTsgui() {
+		return tsgui;
+	}
+	
 }
