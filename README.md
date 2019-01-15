@@ -13,18 +13,18 @@
   - [x] Einigung Optische Schnittstelle: Polaris
   - [x] Verwendeter Roboter: Adept
   - [x] Formulierung exakter Zielvorgaben
-- [ ] Roboter konfigurieren bis 17.12.2018
-  - [ ] Handhabung erlernen
-  - [ ] Schnittstellen kennen lernen
-  - [ ] gezielte Bewegung programmieren
-  - [ ] Anfahren bestimmter Positionen moeglich
-  - [ ] Testen von Bewegungsablaeufen
-- [ ] Tracking System bis 17.12.2018
-  - [ ] TS kennen lernen
-  - [ ] Schnittstellen kennen lernen
-  - [ ] Marker tracken
-  - [ ] Marker erfolgreich getrackt
-- [ ] Vorlesungsfreie Zeit 18.12.2018 bis 07.01.2019
+- [x] Roboter konfigurieren bis 17.12.2018
+  - [x] Handhabung erlernen
+  - [x] Schnittstellen kennen lernen
+  - [x] gezielte Bewegung programmieren
+  - [x] Anfahren bestimmter Positionen moeglich
+  - [x] Testen von Bewegungsablaeufen
+- [x] Tracking System bis 17.12.2018
+  - [x] TS kennen lernen
+  - [x] Schnittstellen kennen lernen
+  - [x] Marker tracken
+  - [x] Marker erfolgreich getrackt
+- [x] Vorlesungsfreie Zeit 18.12.2018 bis 07.01.2019
 - [ ] Software Entwicklung bis 30.01.2019
   - [ ] Parameter des Systems erfassen
   - [ ] Gleichungssystem Entwerfen
