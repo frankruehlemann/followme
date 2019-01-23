@@ -1,6 +1,7 @@
 package control;
 
 import javafx.event.ActionEvent;
+import model.Matrix;
 import view.robotGUI;
 
 public class robotGUIControl {
@@ -13,6 +14,7 @@ public class robotGUIControl {
 		this.robgui.getRobConnect().setOnAction(this::handle);
 		this.robgui.getRobQuit().setOnAction(this::handle);
 		this.robgui.getRobSendMatrix().setOnAction(this::handle);
+		this.robgui.getRobGetPos().setOnAction(this::handle);
 		
 	}
 	
@@ -31,6 +33,12 @@ public class robotGUIControl {
 			this.robgui.getMatrixView().updateMatrix();
 			this.robgui.getRobot().setAdeptSpeed(Double.parseDouble(this.robgui.getSpeedField().getText()));
 			this.robgui.getRobot().moveHomRowWise(this.robgui.getMatrixView().getMatrix());
+		}
+		
+		if(event.getSource().equals(this.robgui.getRobGetPos())) {
+			Matrix pos = this.robgui.getRobot().getRobotPosition();
+			this.robgui.getMatrixView().setMatrix(pos);
+			System.out.println(pos.toMatlabMatrix());
 		}
 		
 		if(event.getSource().equals(this.robgui.getRobQuit())) {

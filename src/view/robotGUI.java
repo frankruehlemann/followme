@@ -26,6 +26,7 @@ public class robotGUI extends GridPane{
 	private Button robConnect = new Button("Connect");
 	private Button robQuit = new Button("Quit");
 	private Button robSendMatrix = new Button("Send Matrix");
+	private Button robGetPos = new Button("Get Matrix");
 	
 	private TextField speed=new TextField("5");
 	
@@ -82,7 +83,8 @@ public class robotGUI extends GridPane{
 		//*************************************************************************************************
 		
 		this.add(this.robSendMatrix, 0, 5);
-		this.add(new Label("Speed"), 1, 5);
+		this.add(this.robGetPos, 1, 5);
+		this.add(new Label("Speed"), 2, 5);
 		this.add(this.speed, 4, 5);
 		Matrix matrix = new Matrix(new double[] {1,0,0,200,0,1,0,300,0,0,1,500},4);
 		this.matrixView = new MatrixView(matrix);
@@ -168,4 +170,9 @@ public class robotGUI extends GridPane{
 	public TextField getSpeedField() {
 		return this.speed;
 	}
+	
+	public Button getRobGetPos() {
+		return robGetPos;
+	}
+	
 }

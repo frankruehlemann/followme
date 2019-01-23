@@ -1,6 +1,6 @@
 package model;
 
-import java.io.IOException;
+import com.mathworks.engine.MatlabEngine;
 
 public class Matrix{
 	private double[][] values;
@@ -170,5 +170,39 @@ public class Matrix{
 		
 		return res;
 	}
+	
+	public String toMatlabMatrix(){
+		
+		String temp="[";
+		
+		for(int i=0;i<this.getRowCount();i++){
+			for(int j=0;j<this.getColCount();j++){
+				if(j!=this.getColCount()-1){
+					temp=temp+this.getValueAt(i, j)+",";
+				}
+				else{
+					temp=temp+this.getValueAt(i, j);
+				}
+			}
+			if(i!=this.getRowCount()-1){
+				temp=temp+";";
+			}
+		}
+		temp=temp+"]";
+		
+		return temp;
+	}
+	
+	public Matrix invert() throws Exception{
+		MatlabEngine eng = MatlabEngine.startMatlab();
+		
+		eng.eval("x = "+this.toMatlabMatrix());
+		eng.eval("x = inv(x);");	
+		 
+		System.out.println("Matrix invert x: ");
+		System.out.println(eng.getVariable("x").toString());
+		return new Matrix(eng.getVariable("x"));
+	}
+	
 	
 }
