@@ -4,6 +4,8 @@ import com.mathworks.engine.*;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.io.IOException;
+import org.ejml.*;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
