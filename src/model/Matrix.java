@@ -141,6 +141,23 @@ public class Matrix{
 		}
 		return res;
 	}
+	public Matrix diff(Matrix m) {
+		
+		if(this.getRowCount()!=m.getRowCount() && this.getColCount()!=m.getColCount()) {
+			System.out.println("Matrix size not equal!!!");
+			return null;
+		}
+		
+		Matrix res= new Matrix(new double[this.getRowCount()][this.getColCount()]);
+		
+		for(int row=0;row<this.getRowCount();row++) {
+			for(int col=0;col<m.getColCount();col++) {
+				double val = this.getValueAt(row, col)-m.getValueAt(row, col);
+				res.setValueAt(val, row, col);
+			}
+		}
+		return res;
+	}
 	public Matrix multiply(Matrix m) {
 		
 		Matrix res=null;
