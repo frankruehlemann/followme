@@ -11,6 +11,10 @@ public class Follow {
 	private Matrix initPos= new Matrix(new double[]{-0.033671, 0.039825, -0.998639, 192.858921,
             -0.262101, -0.964585, -0.029630, 5.694377, 
             -0.964453, 0.260747, 0.042917, 547.190503},4);
+	private Matrix initPosRob;
+	private Matrix initPosTrack;
+
+	private String tracker;
 	
 	public Follow(Matrix xMatrix, Matrix yMatrix, TrackingSystem ts,Robot robot ){
 		this.xMatrix = xMatrix;
@@ -19,6 +23,43 @@ public class Follow {
 		this.robot=robot;
 		
 		
+	}
+
+	public void follow(String markerFollow) {
+		robot.moveHomRowWise(this.initPos);
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+
+		System.out.println("Robot moved to home position.")
+
+		this.initPosRob = new Matrix(ts.getNextValue(),4);
+
+		chooseMarker(markerFollow)
+		initPosTrack = new Matrix(ts.getNextValue(),4);
+		System.out.println("Now following tracker " + markerFollow + ".")
+
+		Matrix posTrack;
+		Matrix diff;
+		while true {
+			posTrack = new Matrix(ts.getNextValue(),4);
+			diff = this.initPosRob.diff(posTrack);
+			System.out.println("Marker moved by:" + diff.toMatlabMatrix());
+			this.robot.moveHomRowWise(this.initPosRob.add(diff));
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
+		}
+
+
+
 	}
 	
 	public void test() throws IllegalArgumentException, IOException{
