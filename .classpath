@@ -2,21 +2,5 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-cdense-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-cdense-0.37.1.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-core-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-core-0.37.1.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-ddense-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-ddense-0.37.1.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-dsparse-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-dsparse-0.37.1.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-experimental-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-experimental-0.37.1.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-fdense-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-fdense-0.37.1.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-simple-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-simple-0.37.1.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-zdense-0.37.1-sources.jar"/>
-	<classpathentry kind="lib" path="src/ejml-v0.37.1-libs/ejml-zdense-0.37.1.jar"/>
 	<classpathentry kind="output" path="src"/>
 </classpath>
