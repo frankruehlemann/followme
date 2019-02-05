@@ -91,7 +91,7 @@ public class Kalibrierung {
 		this.robot.moveHomRowWise(CONSTANTS.initPos);	
 		this.solve();		
 		Follow follow = new Follow(this.xMatrix,this.yMatrix,this.track,this.robot);
-
+		follow.test();
 		
 	}
 	
