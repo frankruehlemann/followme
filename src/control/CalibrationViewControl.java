@@ -17,7 +17,12 @@ public class CalibrationViewControl {
 	
 	public void handle(ActionEvent event) {
 		if(event.getSource().equals(this.calibgui.getBtCalibrate())) {
-			this.calibgui.getCalib().calibrate();
+			try{
+				this.calibgui.getCalib().calibrate();
+			}
+			catch(Exception e){
+				//
+			}
 		}
 		if(event.getSource().equals(this.calibgui.getBtSetCnt())) {
 			this.calibgui.getCalib().setMeasureCount(this.calibgui.getMeasureCnt());
