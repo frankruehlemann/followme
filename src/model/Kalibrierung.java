@@ -23,10 +23,6 @@ public class Kalibrierung {
 	private Matrix xMatrix;
 	private Matrix yMatrix;
 	
-	private Matrix initPos= new Matrix(new double[]{-0.033671, 0.039825, -0.998639, 192.858921,
-	                                              -0.262101, -0.964585, -0.029630, 5.694377, 
-	                                              -0.964453, 0.260747, 0.042917, 547.190503},4);
-	
 	ArrayList <Matrix> Rob_matrices = new ArrayList<Matrix>();
 	ArrayList <Matrix> TS_matrices = new ArrayList<Matrix>();
 	
