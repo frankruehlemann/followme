@@ -189,9 +189,9 @@ public class Kalibrierung {
 
 	public Matrix randMatrix() {
 		
-		double alpha = ThreadLocalRandom.current().nextInt(-40, -10)*Math.PI/180.0;
-		double beta = -ThreadLocalRandom.current().nextInt(80, 100)*Math.PI/180.0;
-		double gamma = ThreadLocalRandom.current().nextInt(-30, -10)*Math.PI/180.0;
+		double alpha = ThreadLocalRandom.current().nextInt(70, 110)*Math.PI/180.0;
+		double beta = ThreadLocalRandom.current().nextInt(25, 75)*Math.PI/180.0;
+		double gamma = ThreadLocalRandom.current().nextInt(70, 110)*Math.PI/180.0;
 		
 		double xpos = ThreadLocalRandom.current().nextInt(300, 700 + 1);
 		double ypos = ThreadLocalRandom.current().nextInt(-300, 300);
@@ -217,11 +217,23 @@ public class Kalibrierung {
 		
 		
 		Matrix rot = rz.multiply(ry).multiply(rx);
-		
+		System.out.println("RandRot: "+rot.toMatlabMatrix());
 		Matrix translation = new Matrix(new double[]{1,0,0,posx,
 													0,1,0,posy,
 													0,0,1,posz,
 													0,0,0,1},4);
+		
+		MatlabEngine eng;
+		try {
+			eng = MatlabEngine.startMatlab();
+			eng.eval("R = "+rot.toMatlabMatrix());
+			eng.eval("R(1:3,1:3) = orth(R(1:3,1:3))");
+			rot = eng.getVariable("R");
+		}
+        catch (Exception e) {
+        	
+        }
+        
 		
 		Matrix res = translation.multiply(rot);
 		
