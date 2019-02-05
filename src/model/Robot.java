@@ -322,7 +322,7 @@ public class Robot implements IrobserverClient{
 				Double.toString(m11)+" "+Double.toString(m12)+" "+Double.toString(m13)+" "+Double.toString(m14)+" "+
 				Double.toString(m21)+" "+Double.toString(m22)+" "+Double.toString(m23)+" "+Double.toString(m24)+" "+
 				Double.toString(m31)+" "+Double.toString(m32)+" "+Double.toString(m33)+" "+Double.toString(m34)+" "+
-				"noflip up lefty";
+				"noflip noToggleElbow lefty";
 				
 		
 		if(this.readWrite(msg).equals("true")) {
