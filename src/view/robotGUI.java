@@ -27,6 +27,7 @@ public class robotGUI extends GridPane{
 	private Button robQuit = new Button("Quit");
 	private Button robSendMatrix = new Button("Send Matrix");
 	private Button robGetPos = new Button("Get Matrix");
+	private Button robMoveInit = new Button("Move Init");
 	
 	private TextField speed=new TextField("5");
 	
@@ -36,6 +37,8 @@ public class robotGUI extends GridPane{
 	private TextField RobotName = new TextField();
 	private TextField RobotType= new TextField();
 	private TextField ServerVersion= new TextField();
+	
+	private WorldPosView wpv= new WorldPosView();
 	
 	private Robot robot;
 	
@@ -92,6 +95,8 @@ public class robotGUI extends GridPane{
 		
 		//*************************************************************************************************
 		
+		this.add(this.wpv, 0, 7,4,3);
+		this.add(this.robMoveInit, 5, 8);
 	}
 	/**
 	 * 
@@ -173,6 +178,12 @@ public class robotGUI extends GridPane{
 	
 	public Button getRobGetPos() {
 		return robGetPos;
+	}
+	public WorldPosView getWpv() {
+		return wpv;
+	}
+	public Button getRobMoveInit() {
+		return robMoveInit;
 	}
 	
 }
