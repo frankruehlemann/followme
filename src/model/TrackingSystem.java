@@ -75,14 +75,15 @@ public class TrackingSystem {
 	public double[] getNextValue() throws IOException {
 		//String answer2 = sendServerln(toServer, fromServer, "CM_SETPUSHVALUES OFF");
 		String answer = sendServerln(toServer, fromServer, "CM_NEXTVALUE");
-		System.out.println(answer);
+		//System.out.println(answer);
 		
 		
 		answer = answer.trim();
+		
 		String[] parts = answer.split(" ");
 		//System.out.println(parts.length);
 		//Return null if not visible	
-		if(parts[0] == "n") {
+		if(parts[1].equals("n")) {
 			return null;
 		}
 		//Filling Matrix
