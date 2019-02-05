@@ -216,6 +216,50 @@ public class Matrix{
 		return temp;
 	}
 	
+	public Matrix fromRealWorldPos(String values){
+		
+		String[] vals = values.split(";");
+		
+		double xangle=Double.parseDouble(vals[0])*Math.PI/180.0;
+		double yangle=Double.parseDouble(vals[1])*Math.PI/180.0;
+		double zangle=Double.parseDouble(vals[2])*Math.PI/180.0;
+		
+		double posx =Double.parseDouble(vals[3]);
+		double posy =Double.parseDouble(vals[4]);
+		double posz =Double.parseDouble(vals[5]);
+		
+		return this.fromRealWorldPos(posx, posy, posz, xangle, yangle, zangle);
+		
+	}
+		
+	public Matrix fromRealWorldPos(double posx,double posy,double posz,double xangle,double yangle,double zangle){	
+		
+		Matrix rx = new Matrix(new double[] {1,0,0,0,
+				0,Math.cos(xangle),-Math.sin(xangle),0,
+				0,Math.sin(xangle),Math.cos(xangle),0},4);
+
+		Matrix rz = new Matrix(new double[] {Math.cos(zangle),-Math.sin(zangle),0,0,
+						Math.sin(zangle),Math.cos(zangle),0,0,
+						0,0,1,0},4);
+		
+		Matrix ry = new Matrix(new double[] {Math.cos(yangle),0,Math.sin(yangle),0,
+						0,-1,0,0,
+						-Math.sin(yangle),0,Math.cos(yangle),0},4);
+		
+		
+		
+		Matrix rot = rz.multiply(ry).multiply(rx);
+		
+		Matrix translation = new Matrix(new double[]{1,0,0,posx,
+								0,1,0,posy,
+								0,0,1,posz,
+								0,0,0,1},4);
+		
+		Matrix res = translation.multiply(rot);		
+		
+		return res;
+	}
+	
 	public Matrix invert() throws Exception{
 		MatlabEngine eng = MatlabEngine.startMatlab();
 		
