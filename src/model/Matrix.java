@@ -185,12 +185,9 @@ public class Matrix{
 						double temp = res.getValueAt(row, col)+this.getValueAt(row, i)*m.getValueAt(i, col);
 						res.setValueAt(temp, row, col);
 					}
-
 				}
 			}
-			
-		}
-		
+		}		
 		return res;
 	}
 	

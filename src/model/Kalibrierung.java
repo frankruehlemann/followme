@@ -52,8 +52,7 @@ public class Kalibrierung {
 			e1.printStackTrace();
 		}
 		
-		for(int i = 0; i<this.cnt; i++) {
-			
+		for(int i = 0; i<this.cnt; i++) {			
 			boolean success=false;
 			Matrix randMat = randMatrix();
 			while(!success) {
@@ -81,7 +80,6 @@ public class Kalibrierung {
 			Rob_matrices.add(currentPos);
 			System.out.println("added...");		
 		}
-		
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
