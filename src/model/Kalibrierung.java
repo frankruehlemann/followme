@@ -1,10 +1,12 @@
 package model;
 
 import com.mathworks.engine.*;
+
+import main.CONSTANTS;
+
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -37,18 +39,16 @@ public class Kalibrierung {
 
 	}
 	
-	public void calibrate() {
-		
+	public void calibrate()throws Exception {		
 		this.Rob_matrices.clear();
 		this.TS_matrices.clear();
 		
 		//TODO verify if its possible to calibrate
 		
 		System.out.println("Calibration started...");
-		this.robot.setAdeptSpeed(20);
+		this.robot.setAdeptSpeed(25);
 		this.robgui.getMatrixView().setMatrix(randMatrix());
-		
-		this.robot.moveHomRowWise(this.initPos);
+		this.robot.moveHomRowWise(CONSTANTS.initPos);
 		
 		try {
 			Thread.sleep(2000);
@@ -99,25 +99,8 @@ public class Kalibrierung {
 			e1.printStackTrace();
 		}
 		
-		this.robot.moveHomRowWise(this.initPos);
-		
-		
-		
-		try {
-			this.solve();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		for(Matrix m : this.Rob_matrices){
-			System.out.println(m.toMatlabMatrix());
-		}
-		
-		for(Matrix m : this.TS_matrices){
-			System.out.println(m.toMatlabMatrix());
-		}
-		
+		this.robot.moveHomRowWise(CONSTANTS.initPos);	
+		this.solve();		
 		Follow follow = new Follow(this.xMatrix,this.yMatrix,this.track,this.robot);
 
 		
