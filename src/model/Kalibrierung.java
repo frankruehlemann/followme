@@ -100,53 +100,91 @@ public class Kalibrierung {
 	}	
 	
 	public void solve()throws Exception{
-		        MatlabEngine eng = MatlabEngine.startMatlab();
-		        
-		        eng.eval("C = zeros(12*"+Integer.toString(this.Rob_matrices.size())+",24);");
-		        eng.eval("b = zeros(12*"+Integer.toString(this.Rob_matrices.size())+",1);");
-		        
-		        for(int k=0;k<this.Rob_matrices.size();k++){
-		        
-			        eng.eval("M = "+this.Rob_matrices.get(k).toMatlabMatrix());
-			        eng.eval("invM = inv(M)");
-			        eng.eval("rotM = invM(1:3,1:3)");
-			        eng.eval("transM=invM(1:3,4);");
-			        
-			        eng.eval("N = "+this.TS_matrices.get(k).toMatlabMatrix());
-			        eng.eval("Ident = -eye(12);");
-			        
-			        
-			        for(int i=0;i<3;i++){
-			        	for(int j=0;j<3;j++){
-			        		eng.eval("temp=rotM*N("+Integer.toString(j+1)+","+Integer.toString(i+1)+");");
-			        		eng.eval("C("+Integer.toString(k*12+i*3+1)+":"+Integer.toString(k*12+i*3+3)
-			        		+","+Integer.toString(j*3+1)+":"+Integer.toString(j*3+3)+")=temp;");
-			        	}
-			        }
-			        
-			        
-			        eng.eval("C("+Integer.toString(12*(k+1)-2)+":"+Integer.toString(12*(k+1))+",10:12)=rotM;");
-			        
-					eng.eval("C("+Integer.toString(12*k+1)+":"+Integer.toString(12*(k+1))+",13:24)=Ident;");
-					
-					//eng.eval("b(10*"+Integer.toString(k+1)+":10*"+Integer.toString(k+1)+"+2)=transM;");
-					eng.eval("b("+Integer.toString(12*(k+1)-2)+":"+Integer.toString(12*(k+1))+")=transM;");
-		        }
-				
-				eng.eval("disp(b)");
-				eng.eval("disp(C);");
-				eng.eval("w = C\\b");
-				//X-Matrix
-				double[] x = new double[12];
-				eng.eval("x = w(1:12);");
-				//Y- Matrix
-				double[] y = new double[12];
-				eng.eval("y = w(13:end);");
-				x = eng.getVariable("x");  
-				y = eng.getVariable("y");
-				xMatrix = new Matrix(x,4);
-				yMatrix = new Matrix(y,4);
-
+        MatlabEngine eng = MatlabEngine.startMatlab();
+        
+        eng.eval("C = zeros(12*"+Integer.toString(this.Rob_matrices.size())+",24);");
+        eng.eval("b = zeros(12*"+Integer.toString(this.Rob_matrices.size())+",1);");
+        
+        for(int k=0;k<this.Rob_matrices.size();k++){
+	        eng.eval("M = "+this.Rob_matrices.get(k).toMatlabMatrix());
+	        eng.eval("M(1:3,1:3) = orth(M(1:3,1:3))");
+	        eng.eval("invM = M;");
+	        eng.eval("invM(1:3,1:3)=invM(1:3,1:3)';");
+	        eng.eval("invM(1:3,4)=-invM(1:3,1:3)*invM(1:3,4);");
+	        eng.eval("rotM = invM(1:3,1:3);");
+	        eng.eval("transM=invM(1:3,4);");
+	        
+	        eng.eval("N = "+this.TS_matrices.get(k).toMatlabMatrix());
+	        eng.eval("N(1:3,1:3) = orth(N(1:3,1:3))");
+	        eng.eval("Ident = -eye(12);");		        
+	        
+	        for(int i=0;i<4;i++){
+	        	for(int j=0;j<3;j++){
+	        		eng.eval("temp=rotM*N("+Integer.toString(j+1)+","+Integer.toString(i+1)+");");
+	        		eng.eval("C("+Integer.toString(k*12+i*3+1)+":"+Integer.toString(k*12+i*3+3)
+	        		+","+Integer.toString(j*3+1)+":"+Integer.toString(j*3+3)+")=temp;");
+	        	}
+	        }   
+	        
+	        eng.eval("C("+Integer.toString(12*(k+1)-2)+":"+Integer.toString(12*(k+1))+",10:12)=rotM;");
+	        
+			eng.eval("C("+Integer.toString(12*k+1)+":"+Integer.toString(12*(k+1))+",13:24)=Ident;");
+			
+			//eng.eval("b(10*"+Integer.toString(k+1)+":10*"+Integer.toString(k+1)+"+2)=transM;");
+			eng.eval("b("+Integer.toString(12*(k+1)-2)+":"+Integer.toString(12*(k+1))+")=-transM;");
+        }	        
+		eng.eval("disp(b)");
+		eng.eval("disp(C);");
+		eng.eval("w = C\\b");
+		
+		//X-Matrix
+		double[] x = new double[12];
+		eng.eval("x = w(13:end);");
+		//Y- Matrix
+		double[] y = new double[12];
+		eng.eval("y = w(1:12);");
+		eng.eval("x = reshape(x, [3,4])");		
+		eng.eval("y = reshape(y, [3,4])");
+		//eng.eval("x(:,2)");
+		/*eng.eval("[n,m] = size(x);");
+		eng.eval("m = m-1;");
+		eng.eval("V = zeros(n,m);");
+		eng.eval("Q = zeros(n,m);");
+		eng.eval("R = zeros(n,m);");
+		
+		for(int j=1; j<=3;j++){
+			eng.eval("Q(:,"+j+") = x(:,"+j+");");
+			for(int i = 1; i<=i-j; i++){
+				eng.eval("R("+i+","+j+")= Q(:,"+i+")'*x(:,"+j+");");
+				eng.eval("Q(:,"+j+") = Q(:,"+j+") - R("+i+","+j+")*Q(:,"+i+");");
+			}
+			eng.eval("R("+j+","+j+") = norm(Q(:,"+j+"));");
+			eng.eval("Q(:,"+j+")/R("+j+","+j+");");
+		}
+		eng.eval("x(:,1:3) = Q");
+		
+		eng.eval("Q = zeros(n,m);");
+		eng.eval("R = zeros(n,m);");
+		for(int j=1; j<=3;j++){
+			eng.eval("Q(:,"+j+") = y(:,"+j+");");
+			for(int i = 1; i<=i-j; i++){
+				eng.eval("R("+i+","+j+")= Q(:,"+i+")'*y(:,"+j+");");
+				eng.eval("Q(:,"+j+") = Q(:,"+j+") - R("+i+","+j+")*Q(:,"+i+");");
+			}
+			eng.eval("R("+j+","+j+") = norm(Q(:,"+j+"));");
+			eng.eval("Q(:,"+j+")/R("+j+","+j+");");
+		}
+		eng.eval("y(:,1:3) = Q");
+		*/	
+		eng.eval("x(1:3,1:3) = orth(x(1:3,1:3))");
+		eng.eval("y(1:3,1:3) = orth(y(1:3,1:3))");
+		eng.eval("y = reshape(y,[12,1]);");
+		eng.eval("x = reshape(x,[12,1]);");
+		x = eng.getVariable("x");
+		y = eng.getVariable("y");
+		xMatrix = new Matrix(x,4);			
+		yMatrix = new Matrix(y,4);	
+		
 	}
 
 	public Matrix randMatrix() {
