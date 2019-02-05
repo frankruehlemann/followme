@@ -16,6 +16,12 @@ public class Matrix{
 		this.values = values;
 	}
 	
+	public Matrix(){
+		this(new double[]{0,0,0,0,
+				0,0,0,0,
+				0,0,0,0},4);
+	}
+	
 	/**
 	 * constructor for 1d arrays
 	 * @param values
