@@ -60,33 +60,26 @@ public class Kalibrierung {
 				randMat = randMatrix();
 				this.robgui.getMatrixView().setMatrix(randMat);
 				success=this.robot.moveHomRowWise(randMat);
-			}	
-
-			
-			try {
-				Thread.sleep(2500);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			
-			Matrix currentPos = this.robot.getRobotPosition();
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				double[] output=track.getNextValue();
+				if( output== null){
+					success = false;
+					System.out.println("Tracker not visible. Next try.");
+				}
+			}				
+			Matrix currentPos = this.robot.getRobotPosition();			
+			Matrix matrix = new Matrix(track.getNextValue(),4);
+			this.tsgui.getMatrixView().setMatrix(matrix);
+			TS_matrices.add(i, matrix);
 			
 			this.robgui.getMatrixView().setMatrix(currentPos);
 			
 			Rob_matrices.add(currentPos);
-			System.out.println("added...");
-			
-			try {
-				Matrix matrix = new Matrix(track.getNextValue(),4);
-				this.tsgui.getMatrixView().setMatrix(matrix);
-				
-				TS_matrices.add(i, matrix);
-			}
-			catch(IOException e) {
-				e.printStackTrace();
-			}
-			
-		
+			System.out.println("added...");		
 		}
 		
 		try {
